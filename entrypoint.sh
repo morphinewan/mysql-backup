@@ -26,10 +26,10 @@ if [[ ${DB_HOST} == "" ]]; then
 fi
 
 BACKUP_DIR=/var/db/backup
-TIMESTAMP=`date +%Y%m%d%H%M%S`
+TIMESTAMP=`date +%Y%m%d`
 
 echo "Dumping database: ${DB_NAME}"
-mysqldump -h ${DB_HOST} -u ${DB_USER} -p"${DB_PASSWORD}" --triggers --routines --events ${DB_NAME} | gzip -3 > ${BACKUP_DIR}/${DB_NAME}-${TIMESTAMP}.sql
+mysqldump -h ${DB_HOST} -u ${DB_USER} -p"${DB_PASSWORD}" --triggers --routines --events ${DB_NAME} | gzip -3 > ${BACKUP_DIR}/${DB_NAME}_${TIMESTAMP}.gz
 
 #写创建备份日志
 echo "create ${BACKUP_DIR}/${DB_NAME}-${TIMESTAMP}.sql" >> ${BACKUP_DIR}/log.txt
