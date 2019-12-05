@@ -32,11 +32,11 @@ echo "Dumping database: ${DB_NAME}"
 mysqldump -h ${DB_HOST} -u ${DB_USER} -p"${DB_PASSWORD}" --triggers --routines --events ${DB_NAME} | gzip -3 > ${BACKUP_DIR}/${DB_NAME}_${TIMESTAMP}.gz
 
 #写创建备份日志
-echo "create ${BACKUP_DIR}/${DB_NAME}-${TIMESTAMP}.sql" >> ${BACKUP_DIR}/log.txt
+echo "create ${BACKUP_DIR}/${DB_NAME}-${TIMESTAMP}.gz" >> ${BACKUP_DIR}/log.txt
 #找出需要删除的备份
-delfile=`ls -l -crt ${BACKUP_DIR}/*.sql | awk '{print $9 }' | head -1`
+delfile=`ls -l -crt ${BACKUP_DIR}/*.gz | awk '{print $9 }' | head -1`
 #判断现在的备份数量是否大于$number
-count=`ls -l -crt  ${BACKUP_DIR}/*.sql | awk '{print $9 }' | wc -l`
+count=`ls -l -crt  ${BACKUP_DIR}/*.gz | awk '{print $9 }' | wc -l`
 if [ ${count} -gt ${BACKUP_NUMBER} ]
 then
   rm $delfile  # 删除最早生成的备份只保留number数量的备份
